@@ -4,7 +4,7 @@
     <section class="content-header">
       <h1>
         Data Permohonan Layanan Pengurusan Surat Kepemilikan Tanah
-        
+
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,13 +17,13 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          
+
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Lihat Data Permohonan</h3>
             </div>
-              
-            <?php 
+
+            <?php
                     if ($this->session->flashdata()==null) {
                     }else{
             ?>
@@ -32,7 +32,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h4>  <i class="icon fa fa-check"></i> <?php echo $this->session->flashdata('pesan');?></h4>
                         <?php echo $this->session->flashdata('detail_pesan');?>
-                    </div>    
+                    </div>
             <?php
                     }
             ?>
@@ -54,7 +54,7 @@
                   <th>Petugas Pencatat</th>
                   <th>Persetujuan</th>
                   <th>Kelola</th>
-                  
+
                 </tr>
                 </thead>
                 <tbody>
@@ -72,13 +72,17 @@
                         <td><?php echo $key->status_tanah; ?></td>
                         <td><?php echo $key->pencatat; ?></td>
                         <td><?php echo $key->statperm; ?></td>
-                        <td><a href="<?php echo base_url(); ?>index.php/Permohonan/persetujuan/<?php echo $key->idpermohonan; ?>"><i class="fa fa-edit"></i> Persetujuan</a> <a href="#"><i class="fa fa-print"></i> Cetak Bukti</a></td>
+                        <td>
+                        <a onclick="return confirm('Yakin akan menyetujui permohonan?')" href="<?php echo base_url()?>index.php/permohonan/setujui/<?php echo $key->idpermohonan?>" class="btn btn-success">Setujui</a>
+                        <a onclick="return confirm('Yakin akan menyetujui permohonan?')" href="<?php echo base_url()?>index.php/permohonan/tolak/<?php echo $key->idpermohonan?>" class="btn btn-danger">Tolak</a>
+                        <a href="" class="btn btn-primary">Cetak Bukti</a>
+                        </td>
                     </tr>
-                    
+
                 <?php $i++; } ?>
-                
+
                 </tbody>
-                
+
               </table>
             </div>
             <!-- /.box-body -->

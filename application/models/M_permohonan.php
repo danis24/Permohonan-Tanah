@@ -29,7 +29,7 @@ class M_permohonan extends CI_Model{
 
     public function getPersetujuanP()
     {
-        $query = $this->db->query("SELECT p.idpermohonan, p.idlayanan, p.nama_pemohon, p.alamat, p.status_syarat, p.syarat_belum, p.status_tanah, p.nohp, p.progres, p.tgl_aju, p.pencatat, p.statperm, d.nama_l, d.syarat FROM permohonan_alih_hak_tanah p JOIN detail_layanan d ON (p.idlayanan = d.idlayanan ) where p.statperm='Belum Disetujui' ; ");
+        $query = $this->db->query("SELECT p.idpermohonan, p.idlayanan, p.nama_pemohon, p.alamat, p.status_syarat, p.syarat_belum, p.status_tanah, p.nohp, p.progres, p.tgl_aju, p.pencatat, p.statperm, p.email, d.nama_l, d.syarat FROM permohonan_alih_hak_tanah p JOIN detail_layanan d ON (p.idlayanan = d.idlayanan ) where p.statperm='Belum Disetujui' ; ");
         return $query;
     }
 

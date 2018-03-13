@@ -222,5 +222,54 @@ function proses_persetujuan($idpermohonan)
         $this->email->send();
     }
 
+    public function setujui()
+    {
+        $id = $this->uri->segment(3);
+        $this->db->where('idpermohonan', $id);
+        $getEmail = $this->db->get('permohonan_alih_hak_tanah')->row_array();
+
+        $data = array(
+            'statperm' => 'Permohonan Disetujui',
+        );
+        $this->db->where('idpermohonan', $id);
+        $tanah = $this->db->update('permohonan_alih_hak_tanah', $data);
+        if($tanah){
+            $this->sendEmail($getEmail['email'], 'Permohonan Disetujui');
+            $this->session->set_flashdata('pesan','Sukses !!');
+            $this->session->set_flashdata('detail_pesan','Anda Telah Menyetujui permohonan!');
+            $this->session->set_flashdata('alert','alert-success');
+            redirect(base_url('index.php/Permohonan/get_persetujuan'));
+        }else{
+            $this->session->set_flashdata('pesan','Kesalahan !!');
+            $this->session->set_flashdata('detail_pesan','Anda Gagal Menyetujui permohonan!');
+            $this->session->set_flashdata('alert','alert-danger');
+            redirect(base_url('index.php/Permohonan/get_persetujuan'));
+        }
+    }
+
+    public function tolak()
+    {
+        $id = $this->uri->segment(3);
+        $this->db->where('idpermohonan', $id);
+        $getEmail = $this->db->get('permohonan_alih_hak_tanah')->row_array();
+        $data = array(
+            'statperm' => 'Permohonan Ditolak',
+        );
+        $this->db->where('idpermohonan', $id);
+        $tanah = $this->db->update('permohonan_alih_hak_tanah', $data);
+        if($tanah){
+            $this->sendEmail($getEmail['email'], 'Permohonan Ditolak');
+            $this->session->set_flashdata('pesan','Sukses !!');
+            $this->session->set_flashdata('detail_pesan','Anda Telah Menolak permohonan!');
+            $this->session->set_flashdata('alert','alert-success');
+            redirect(base_url('index.php/Permohonan/get_persetujuan'));
+        }else{
+            $this->session->set_flashdata('pesan','Kesalahan !!');
+            $this->session->set_flashdata('detail_pesan','Anda Gagal Menolak permohonan!');
+            $this->session->set_flashdata('alert','alert-danger');
+            redirect(base_url('index.php/Permohonan/get_persetujuan'));
+        }
+    }
+
 
 }
