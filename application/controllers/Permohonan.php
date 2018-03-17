@@ -180,43 +180,6 @@ class Permohonan extends CI_Controller
         }
     }
 
-    public function sendEmail($to, $status){
-        //send email to email
-        $config = Array( 
-            'protocol' => 'smtp', 
-            'smtp_host' => 'ssl://smtp.googlemail.com', 
-            'smtp_port' => 465, 
-            'smtp_user' => 'skripsi@matthewchance2017.com', 
-            'smtp_pass' => 'Suckhack24@',
-            'charset' => 'utf-8',
-            'mailtype' => 'html',
-        ); 
-
-        $bodyContent = '<h2>Konfirmasi Status Persetujuan Pengurusan Kepemilikan Surat Tanah</h2>';
-        $bodyContent .= '<h3>Hi (' . $to . '),</h3>';
-        $bodyContent .= '<h3>Selamat datang di Permohonan Layanan Pengurusan Surat Kepemilikan Tanah</h3>';
-        $bodyContent .= '<p>Berikut merupakan hasil permohonan anda : </p>';
-        if($status == 'Permohonan Disetujui'){
-            $bodyContent .= '<h2 style="background: blue; padding: 20px; color: #ffffff"><strong>' . $status . '</strong></h2>';
-        }else{
-            $bodyContent .= '<h2 style="background: red; padding: 20px; color: #ffffff"><strong>' . $status . '</strong></h2>';
-        }
-        $bodyContent .= '<p>Terimakasih atas partisipasi yang telah anda berikan, jika anda memiliki pertanyaan lebih lanjut silahkan hubungi melalui kontak terkait.</p>';
-        $bodyContent .= '<p>Salam,</p>';
-      
-        $this->load->library('email', $config); 
-        $this->email->set_newline("\r\n");
-        $this->email->from('skripsi@matthewchance2017.com', 'Pelayanan Kepemilikan Tanah');
-        $this->email->to($to);
-        $this->email->subject(' Konfirmasi Status Pelayanan Kepemilikan Tanah '); 
-        $this->email->message($bodyContent);
-        if (!$this->email->send()) {
-          show_error($this->email->print_debugger()); }
-        else {
-          echo 'Your e-mail has been sent!';
-        }
-      }   
-
     public function setujui()
     {
         $id = $this->uri->segment(3);
@@ -229,7 +192,7 @@ class Permohonan extends CI_Controller
         $this->db->where('idpermohonan', $id);
         $tanah = $this->db->update('permohonan_alih_hak_tanah', $data);
         if ($tanah) {
-            $this->sendEmail($getEmail['email'], 'Permohonan Disetujui');
+            $this->curl($getEmail['email'], 'Permohonan Disetujui');
             $this->session->set_flashdata('pesan', 'Sukses !!');
             $this->session->set_flashdata('detail_pesan', 'Anda Telah Menyetujui permohonan!');
             $this->session->set_flashdata('alert', 'alert-success');
@@ -253,7 +216,7 @@ class Permohonan extends CI_Controller
         $this->db->where('idpermohonan', $id);
         $tanah = $this->db->update('permohonan_alih_hak_tanah', $data);
         if ($tanah) {
-            $this->sendEmail($getEmail['email'], 'Permohonan Ditolak');
+            $this->curl($getEmail['email'], 'Permohonan Ditolak');
             $this->session->set_flashdata('pesan', 'Sukses !!');
             $this->session->set_flashdata('detail_pesan', 'Anda Telah Menolak permohonan!');
             $this->session->set_flashdata('alert', 'alert-success');
@@ -264,6 +227,14 @@ class Permohonan extends CI_Controller
             $this->session->set_flashdata('alert', 'alert-danger');
             redirect(base_url('index.php/Permohonan/get_persetujuan'));
         }
+    }
+
+    public function curl($email, $status)
+    {
+        $this->curl->simple_post('https://floating-scrubland-30453.herokuapp.com/index.php', array(
+            'email' => $email,
+            'status' => $status,
+        ));
     }
 
 }
