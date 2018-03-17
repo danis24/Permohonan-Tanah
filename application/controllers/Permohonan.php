@@ -252,6 +252,7 @@ class Permohonan extends CI_Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://floating-scrubland-30453.herokuapp.com/index.php");
         curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec($ch);
