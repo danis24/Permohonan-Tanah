@@ -74,7 +74,7 @@
                         <td><?php echo $key->statperm; ?></td>
                         <td>
                         <a onclick="return confirm('Yakin akan menyetujui permohonan?')" href="<?php echo base_url()?>index.php/permohonan/setujui/<?php echo $key->idpermohonan?>" class="btn btn-success">Setujui</a>
-                        <a onclick="return confirm('Yakin akan menyetujui permohonan?')" href="<?php echo base_url()?>index.php/permohonan/tolak/<?php echo $key->idpermohonan?>" class="btn btn-danger">Tolak</a>
+                        <a onclick="return confirm('Yakin akan menolak permohonan?')" href="<?php echo base_url()?>index.php/permohonan/tolak/<?php echo $key->idpermohonan?>" class="btn btn-danger">Tolak</a>
                         <a href="" class="btn btn-primary">Cetak Bukti</a>
                         </td>
                     </tr>
